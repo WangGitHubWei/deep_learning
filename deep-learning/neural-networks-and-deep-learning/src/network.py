@@ -51,7 +51,9 @@ class Network(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-        if test_data: n_test = len(test_data)
+        test_data =list(test_data)
+        if test_data: n_test = len(test_data) # TypeError: object of type 'zip' has no len()  用list()包起来就可以
+        training_data = list(training_data)
         n = len(training_data)
         for j in range(epochs):
             random.shuffle(training_data)
@@ -61,10 +63,10 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print "Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(test_data), n_test)
+                print ("Epoch {0}: {1} / {2}".format(
+                    j, self.evaluate(test_data), n_test))
             else:
-                print "Epoch {0} complete".format(j)
+                print ("Epoch {0} complete".format(j))
 
     def update_mini_batch(self, mini_batch, eta):
         """Update the network's weights and biases by applying
